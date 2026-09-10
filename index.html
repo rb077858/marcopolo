@@ -5,261 +5,496 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>מרקו פולו | Marco Polo — משחקים</title>
 <meta name="description" content="מרקו פולו — מרכז המשחקים. ספארי סלאם, ברווזים וקבנוס, אקסלי והביוב הגדול, ברווז בחלל ועוד.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-1: #fff4d6;
-    --bg-2: #ffd7e6;
-    --bg-3: #cdeaff;
+    --sidebar-bg: #14141f;
+    --sidebar-bg-2: #1b1b2c;
+    --sidebar-text: #9797b3;
+    --sidebar-text-active: #ffffff;
+    --main-bg: #f2f3f8;
     --card-bg: #ffffff;
-    --ink: #2b2140;
-    --ink-soft: #5a4e73;
-    --accent-1: #ff6b6b;
+    --ink: #1c1c2e;
+    --ink-soft: #6b6b85;
+    --accent: #ff5c39;
     --accent-2: #ffa63d;
-    --accent-3: #4ecdc4;
-    --accent-4: #7c6ff2;
-    --accent-5: #ff5fa2;
-    --accent-6: #38c172;
-    --shadow: 0 14px 32px rgba(60, 30, 90, 0.16);
-    --shadow-hover: 0 20px 44px rgba(60, 30, 90, 0.24);
+    --shadow: 0 10px 24px rgba(20, 20, 40, 0.08);
+    --shadow-hover: 0 18px 36px rgba(20, 20, 40, 0.16);
+    --sidebar-w: 232px;
+    --topbar-h: 68px;
   }
 
   * { box-sizing: border-box; }
 
-  html, body {
-    margin: 0;
-    padding: 0;
-  }
+  html, body { margin: 0; padding: 0; }
 
   body {
     min-height: 100vh;
-    font-family: "Segoe UI", "Heebo", "Arial Hebrew", Arial, system-ui, sans-serif;
-    background:
-      radial-gradient(circle at 12% 15%, var(--bg-3) 0%, transparent 45%),
-      radial-gradient(circle at 88% 20%, var(--bg-2) 0%, transparent 45%),
-      radial-gradient(circle at 50% 90%, var(--bg-3) 0%, transparent 50%),
-      var(--bg-1);
+    font-family: "Nunito", "Segoe UI", "Heebo", Arial, system-ui, sans-serif;
+    background: var(--main-bg);
     color: var(--ink);
-    padding: clamp(16px, 4vw, 40px) 16px 60px;
-    overflow-x: hidden;
   }
 
-  .wrap {
-    max-width: 1080px;
-    margin: 0 auto;
-  }
+  h1, h2, .brand-word, .hero-title { font-family: "Baloo 2", "Nunito", sans-serif; }
 
-  /* ---------- floating decorations ---------- */
-  .bg-decor {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .bg-decor span {
-    position: absolute;
-    font-size: 42px;
-    opacity: 0.18;
-    animation: float 9s ease-in-out infinite;
-    filter: blur(0.2px);
-  }
-  .bg-decor span:nth-child(1) { top: 6%;  left: 4%;  animation-delay: 0s;   font-size: 54px; }
-  .bg-decor span:nth-child(2) { top: 70%; left: 8%;  animation-delay: 1.4s; font-size: 36px; }
-  .bg-decor span:nth-child(3) { top: 15%; left: 88%; animation-delay: 0.8s; font-size: 48px; }
-  .bg-decor span:nth-child(4) { top: 78%; left: 90%; animation-delay: 2.2s; font-size: 40px; }
-  .bg-decor span:nth-child(5) { top: 45%; left: 50%; animation-delay: 3s;   font-size: 30px; }
+  button { font-family: inherit; }
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50%      { transform: translateY(-22px) rotate(8deg); }
-  }
+  a { color: inherit; }
 
-  /* ---------- header ---------- */
-  header {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    margin-bottom: clamp(28px, 5vw, 48px);
-  }
-
-  .lang-toggle {
-    position: absolute;
-    top: 0;
-    inset-inline-end: 0;
+  /* ---------------- layout shell ---------------- */
+  .app {
     display: flex;
-    gap: 6px;
-    background: var(--card-bg);
-    border-radius: 999px;
-    padding: 5px;
-    box-shadow: var(--shadow);
+    min-height: 100vh;
   }
 
-  .lang-toggle button {
+  [dir="rtl"] .app { flex-direction: row; }
+  [dir="ltr"] .app { flex-direction: row; }
+
+  /* ---------------- sidebar ---------------- */
+  .sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    background: linear-gradient(180deg, var(--sidebar-bg), var(--sidebar-bg-2));
+    color: var(--sidebar-text);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 30;
+  }
+
+  .sidebar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 18px 8px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .brand-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 6px 14px -4px rgba(255, 92, 57, 0.6);
+  }
+
+  .brand-badge svg { width: 22px; height: 22px; }
+
+  .brand-word {
+    color: #fff;
+    font-weight: 800;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+  }
+
+  .drawer-close {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 12px;
+    flex: 1;
+  }
+
+  .nav-section-label {
+    margin: 16px 10px 6px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #55556e;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
     border: none;
     background: transparent;
-    font-family: inherit;
-    font-size: 14px;
+    color: var(--sidebar-text);
+    font-size: 14.5px;
     font-weight: 700;
-    padding: 8px 16px;
-    border-radius: 999px;
     cursor: pointer;
-    color: var(--ink-soft);
-    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+    text-align: inherit;
+    transition: background 0.15s ease, color 0.15s ease;
   }
 
-  .lang-toggle button.active {
-    background: linear-gradient(135deg, var(--accent-4), var(--accent-5));
+  .nav-item svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    stroke: currentColor;
+  }
+
+  .nav-item:hover {
+    background: rgba(255, 255, 255, 0.06);
     color: #fff;
   }
 
-  .lang-toggle button:not(.active):hover {
-    background: #f2edff;
-    transform: translateY(-1px);
+  .nav-item.active {
+    background: rgba(255, 92, 57, 0.16);
+    color: #fff;
   }
 
-  .logo-badge {
-    display: inline-flex;
+  .nav-item.active svg { stroke: var(--accent); }
+  .nav-item .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .sidebar-bottom {
+    padding: 14px 18px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .lang-toggle {
+    display: flex;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    padding: 4px;
+  }
+
+  .lang-toggle button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 12.5px;
+    font-weight: 800;
+    padding: 7px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    color: var(--sidebar-text);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .lang-toggle button.active {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #fff;
+  }
+
+  /* ---------------- scrim (mobile drawer) ---------------- */
+  .scrim {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 20, 0.5);
+    z-index: 25;
+  }
+  .scrim.show { display: block; }
+
+  /* ---------------- main column ---------------- */
+  .main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    height: var(--topbar-h);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 clamp(16px, 3vw, 32px);
+    background: rgba(242, 243, 248, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(20, 20, 40, 0.06);
+  }
+
+  .hamburger {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    background: #fff;
+    box-shadow: var(--shadow);
     align-items: center;
     justify-content: center;
-    width: 92px;
-    height: 92px;
-    border-radius: 28px;
-    background: linear-gradient(135deg, var(--accent-4), var(--accent-5));
-    box-shadow: var(--shadow);
-    margin-bottom: 18px;
-    transform: rotate(-4deg);
+    cursor: pointer;
+    flex-shrink: 0;
   }
+  .hamburger svg { width: 20px; height: 20px; }
 
-  .logo-badge svg { width: 56px; height: 56px; }
-
-  h1 {
-    margin: 0 0 8px;
-    font-size: clamp(32px, 6vw, 52px);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    background: linear-gradient(90deg, var(--accent-1), var(--accent-4) 45%, var(--accent-3));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .subtitle {
-    margin: 0 auto;
-    max-width: 560px;
-    color: var(--ink-soft);
-    font-size: clamp(15px, 2.4vw, 19px);
-    line-height: 1.6;
-  }
-
-  /* ---------- games grid ---------- */
-  .grid {
+  .search-wrap {
+    flex: 1;
+    max-width: 480px;
     position: relative;
-    z-index: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-wrap svg {
+    position: absolute;
+    inset-inline-start: 14px;
+    width: 18px;
+    height: 18px;
+    color: var(--ink-soft);
+    pointer-events: none;
+  }
+
+  .search-wrap input {
+    width: 100%;
+    border: 2px solid transparent;
+    background: #fff;
+    border-radius: 999px;
+    padding: 11px 16px 11px 44px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink);
+    outline: none;
+    box-shadow: var(--shadow);
+    transition: border-color 0.15s ease;
+  }
+
+  [dir="rtl"] .search-wrap input { padding: 11px 44px 11px 16px; }
+
+  .search-wrap input:focus { border-color: var(--accent); }
+
+  .content {
+    padding: clamp(18px, 3vw, 32px) clamp(16px, 3vw, 32px) 60px;
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* ---------------- hero / featured ---------------- */
+  .hero {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    background: linear-gradient(120deg, #4361ee, #7c6ff2 55%, #ff5c39);
+    padding: clamp(24px, 5vw, 44px);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-bottom: clamp(24px, 4vw, 38px);
+    min-height: 190px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .hero-title {
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 800;
+    margin: 0 0 8px;
+  }
+
+  .hero-desc {
+    margin: 0 0 18px;
+    font-size: 15px;
+    opacity: 0.92;
+    max-width: 420px;
+    line-height: 1.5;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 14.5px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+    transition: transform 0.15s ease;
+  }
+  .hero-cta:hover { transform: translateY(-2px); }
+  .hero-cta svg { width: 16px; height: 16px; }
+  [dir="rtl"] .hero-cta svg { transform: scaleX(-1); }
+
+  .hero-art {
+    width: 150px;
+    height: 150px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .hero-art svg { width: 90px; height: 90px; }
+
+  @media (max-width: 640px) {
+    .hero-art { display: none; }
+  }
+
+  /* ---------------- section heading ---------------- */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .section-head h2 {
+    font-size: clamp(19px, 2.6vw, 24px);
+    font-weight: 800;
+    margin: 0;
+  }
+
+  .section-count {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+
+  /* ---------------- games grid ---------------- */
+  .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: clamp(16px, 3vw, 26px);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: clamp(14px, 2.4vw, 22px);
   }
 
   .card {
     background: var(--card-bg);
-    border-radius: 26px;
-    padding: 26px 22px 24px;
+    border-radius: 18px;
+    overflow: hidden;
     box-shadow: var(--shadow);
-    text-align: center;
+    text-decoration: none;
+    color: var(--ink);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease;
-    position: relative;
-    isolation: isolate;
-  }
-
-  .card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 26px;
-    padding: 2px;
-    background: linear-gradient(135deg, var(--card-accent-a), var(--card-accent-b));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.25s ease;
-    z-index: -1;
+    transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease;
   }
 
   .card:hover {
-    transform: translateY(-8px) scale(1.02);
+    transform: translateY(-6px);
     box-shadow: var(--shadow-hover);
   }
 
-  .card:hover::before { opacity: 1; }
-
-  .icon-wrap {
-    width: 96px;
-    height: 96px;
-    border-radius: 24px;
+  .thumb {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, var(--card-accent-a), var(--card-accent-b));
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, var(--card-accent-a), var(--card-accent-b));
-    box-shadow: 0 10px 20px -6px var(--card-accent-a);
-    transition: transform 0.25s ease;
   }
 
-  .card:hover .icon-wrap { transform: rotate(-6deg) scale(1.06); }
+  .thumb svg { width: 62%; height: 62%; transition: transform 0.25s ease; }
+  .card:hover .thumb svg { transform: scale(1.06) rotate(-3deg); }
 
-  .icon-wrap svg { width: 56px; height: 56px; }
-
-  .card h2 {
-    font-size: 20px;
-    margin: 0 0 6px;
-    font-weight: 800;
-  }
-
-  .card p {
-    margin: 0 0 18px;
-    font-size: 14px;
-    color: var(--ink-soft);
-    line-height: 1.55;
-    min-height: 44px;
-  }
-
-  .play-btn {
-    margin-top: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 22px;
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 14px;
+  .thumb-tag {
+    position: absolute;
+    top: 10px;
+    inset-inline-start: 10px;
+    background: rgba(0, 0, 0, 0.28);
     color: #fff;
-    background: linear-gradient(135deg, var(--card-accent-a), var(--card-accent-b));
-    box-shadow: 0 8px 18px -6px var(--card-accent-a);
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    padding: 4px 9px;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
   }
 
-  .play-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 22px -6px var(--card-accent-a);
+  .play-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 20, 0.32);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
   }
 
-  .play-btn:active { transform: translateY(0); }
+  .card:hover .play-overlay { opacity: 1; }
 
-  .play-btn svg {
-    width: 16px;
-    height: 16px;
-    transition: transform 0.18s ease;
+  .play-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.85);
+    transition: transform 0.2s ease;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+  }
+  .card:hover .play-circle { transform: scale(1); }
+  .play-circle svg { width: 20px; height: 20px; margin-inline-start: 2px; }
+  [dir="rtl"] .play-circle svg { margin-inline-start: 0; margin-inline-end: 2px; transform: scaleX(-1); }
+
+  .card-body {
+    padding: 12px 14px 15px;
   }
 
-  [dir="rtl"] .play-btn svg { transform: scaleX(-1); }
+  .card-body h3 {
+    margin: 0 0 4px;
+    font-size: 14.5px;
+    font-weight: 800;
+    line-height: 1.3;
+  }
 
-  .play-btn:hover svg { transform: translateX(3px); }
-  [dir="rtl"] .play-btn:hover svg { transform: scaleX(-1) translateX(3px); }
+  .card-body p {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-soft);
+    font-weight: 700;
+  }
 
   /* per-card accent colors */
   .card[data-game="safari"]  { --card-accent-a: #ffb547; --card-accent-b: #ff6b6b; }
@@ -269,195 +504,287 @@
   .card[data-game="space"]   { --card-accent-a: #4361ee; --card-accent-b: #7c6ff2; }
 
   footer {
-    position: relative;
-    z-index: 1;
     text-align: center;
-    margin-top: 56px;
+    padding: 30px 20px 40px;
     color: var(--ink-soft);
     font-size: 13px;
   }
+  footer .heart { color: var(--accent); }
 
-  footer .heart { color: var(--accent-1); }
-
-  @media (max-width: 420px) {
-    .lang-toggle { position: static; margin: 0 auto 18px; width: fit-content; }
+  /* ---------------- responsive ---------------- */
+  @media (max-width: 900px) {
+    .sidebar {
+      position: fixed;
+      inset-inline-start: 0;
+      top: 0;
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      box-shadow: 0 0 40px rgba(0,0,0,0.3);
+    }
+    [dir="rtl"] .sidebar { transform: translateX(100%); }
+    .sidebar.open { transform: translateX(0); }
+    .drawer-close { display: block; }
+    .hamburger { display: flex; }
   }
 </style>
 </head>
 <body>
 
-<div class="bg-decor" aria-hidden="true">
-  <span>⭐</span>
-  <span>🎈</span>
-  <span>✨</span>
-  <span>🎮</span>
-  <span>🌟</span>
-</div>
-
-<div class="wrap">
-  <header>
-    <div class="lang-toggle" role="group" aria-label="Language / שפה">
-      <button type="button" id="btn-he" class="active" aria-pressed="true">עברית</button>
-      <button type="button" id="btn-en" aria-pressed="false">English</button>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+      <a class="brand" href="#">
+        <span class="brand-badge" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4L14 8L4 12V4Z" fill="#fff"/>
+            <path d="M4 12L20 20L4 20V12Z" fill="#fff" opacity="0.85"/>
+          </svg>
+        </span>
+        <span class="brand-word" data-he="מרקו פולו" data-en="Marco Polo">מרקו פולו</span>
+      </a>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
     </div>
 
-    <div class="logo-badge" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 4L14 8L4 12V4Z" fill="#fff"/>
-        <path d="M4 12L20 20L4 20V12Z" fill="#fff" opacity="0.85"/>
-      </svg>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <button class="nav-item active" data-filter="all" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        <span data-he="כל המשחקים" data-en="All Games">כל המשחקים</span>
+      </button>
+
+      <div class="nav-section-label" data-he="קטגוריות" data-en="Categories">קטגוריות</div>
+
+      <button class="nav-item" data-filter="adventure" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6z"/></svg>
+        <span data-he="הרפתקאות" data-en="Adventure">הרפתקאות</span>
+      </button>
+      <button class="nav-item" data-filter="arcade" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="10" rx="5"/><path d="M7 13h.01M7 11h.01M6 12h2M15 12h.01M17 12h.01"/></svg>
+        <span data-he="ארקייד" data-en="Arcade">ארקייד</span>
+      </button>
+      <button class="nav-item" data-filter="platformer" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h4v-4H3v4zM9 16h4V8H9v8zM15 8h4V4h-4v4z"/></svg>
+        <span data-he="פלטפורמות" data-en="Platformer">פלטפורמות</span>
+      </button>
+      <button class="nav-item" data-filter="space" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2.5 2.5 4 6 4 10a4 4 0 01-8 0c0-4 1.5-7.5 4-10z"/><circle cx="12" cy="12" r="1.5"/><path d="M8.5 17.5L6 21m9.5-3.5L18 21"/></svg>
+        <span data-he="חלל" data-en="Space">חלל</span>
+      </button>
+      <button class="nav-item" data-filter="mobile" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg>
+        <span data-he="מובייל" data-en="Mobile">מובייל</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="lang-toggle" role="group" aria-label="Language / שפה">
+        <button type="button" id="btn-he" class="active" aria-pressed="true">עברית</button>
+        <button type="button" id="btn-en" aria-pressed="false">English</button>
+      </div>
     </div>
+  </aside>
 
-    <h1 data-he="מרקו פולו" data-en="Marco Polo">מרקו פולו</h1>
-    <p class="subtitle" data-he="חמישה משחקים קטנים, הרפתקה אחת גדולה. בחרו משחק והתחילו לשחק!" data-en="Five little games, one big adventure. Pick a game and start playing!">
-      חמישה משחקים קטנים, הרפתקה אחת גדולה. בחרו משחק והתחילו לשחק!
-    </p>
-  </header>
+  <div class="scrim" id="scrim"></div>
 
-  <main class="grid">
-
-    <!-- Safari Slam -->
-    <article class="card" data-game="safari">
-      <div class="icon-wrap">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="32" cy="34" r="16" fill="#fff" opacity="0.25"/>
-          <path d="M20 40c0-10 5-18 12-18s12 8 12 18" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-          <circle cx="24" cy="26" r="5" fill="#fff"/>
-          <circle cx="40" cy="26" r="5" fill="#fff"/>
-          <circle cx="24" cy="26" r="2" fill="#c94b2f"/>
-          <circle cx="40" cy="26" r="2" fill="#c94b2f"/>
-          <path d="M28 42c1.5 2 5.5 2 7 0" stroke="#c94b2f" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M14 20l6 6M50 20l-6 6M12 34h6M52 34h-6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
+  <div class="main">
+    <header class="topbar">
+      <button class="hamburger" id="hamburger" aria-label="Open menu" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" id="searchInput" data-ph-he="חפשו משחק..." data-ph-en="Search games..." placeholder="חפשו משחק...">
       </div>
-      <h2 data-he="ספארי סלאם" data-en="Safari Slam">ספארי סלאם</h2>
-      <p data-he="הרפתקה מטורפת בג'ונגל — קפצו, רוצו ואספו נקודות!" data-en="A wild jungle adventure — jump, run and collect points!">
-        הרפתקה מטורפת בג'ונגל — קפצו, רוצו ואספו נקודות!
-      </p>
-      <a class="play-btn" href="https://claude.ai/code/artifact/24daabb4-a4b7-4124-9689-59f2420906c9" target="_blank" rel="noopener noreferrer">
-        <span data-he="שחקו עכשיו" data-en="Play now">שחקו עכשיו</span>
-        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </article>
+    </header>
 
-    <!-- Ducks & Kaboom -->
-    <article class="card" data-game="ducks">
-      <div class="icon-wrap">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="28" cy="38" rx="16" ry="12" fill="#fff"/>
-          <circle cx="38" cy="24" r="10" fill="#fff"/>
-          <circle cx="41" cy="21" r="1.8" fill="#2b2140"/>
-          <path d="M46 25l8 2-8 3z" fill="#ffb347"/>
-          <path d="M46 8l3 8-8-2z" fill="#fff" opacity="0.9"/>
-          <circle cx="47" cy="10" r="3" fill="#ffe08a"/>
-        </svg>
-      </div>
-      <h2 data-he="ברווזים וקבנוס" data-en="Ducks &amp; Kaboom">ברווזים וקבנוס</h2>
-      <p data-he="כוונו, ירו ופוצצו — משחק דיוק וכיף לכל המשפחה." data-en="Aim, shoot, and pop — a fun precision game for the whole family.">
-        כוונו, ירו ופוצצו — משחק דיוק וכיף לכל המשפחה.
-      </p>
-      <a class="play-btn" href="https://claude.ai/code/artifact/439ee367-8d77-4976-8195-6e5473c845d4" target="_blank" rel="noopener noreferrer">
-        <span data-he="שחקו עכשיו" data-en="Play now">שחקו עכשיו</span>
-        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </article>
+    <div class="content">
+      <section class="hero">
+        <div>
+          <div class="hero-badge">
+            <span data-he="מומלץ" data-en="Featured">מומלץ</span>
+          </div>
+          <h3 class="hero-title" data-he="ספארי סלאם" data-en="Safari Slam">ספארי סלאם</h3>
+          <p class="hero-desc" data-he="הרפתקה מטורפת בג'ונגל — קפצו, רוצו ואספו נקודות! המשחק המומלץ השבוע." data-en="A wild jungle adventure — jump, run and collect points! This week's featured game.">
+            הרפתקה מטורפת בג'ונגל — קפצו, רוצו ואספו נקודות! המשחק המומלץ השבוע.
+          </p>
+          <a class="hero-cta" href="https://claude.ai/code/artifact/24daabb4-a4b7-4124-9689-59f2420906c9" target="_blank" rel="noopener noreferrer">
+            <span data-he="שחקו עכשיו" data-en="Play now">שחקו עכשיו</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="34" r="16" fill="#fff" opacity="0.25"/>
+            <path d="M20 40c0-10 5-18 12-18s12 8 12 18" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="24" cy="26" r="5" fill="#fff"/>
+            <circle cx="40" cy="26" r="5" fill="#fff"/>
+            <circle cx="24" cy="26" r="2" fill="#c94b2f"/>
+            <circle cx="40" cy="26" r="2" fill="#c94b2f"/>
+            <path d="M28 42c1.5 2 5.5 2 7 0" stroke="#c94b2f" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M14 20l6 6M50 20l-6 6M12 34h6M52 34h-6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </section>
 
-    <!-- Ducks & Kaboom Mobile -->
-    <article class="card" data-game="ducksm">
-      <div class="icon-wrap">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="20" y="8" width="24" height="48" rx="6" fill="#fff" opacity="0.9"/>
-          <rect x="24" y="14" width="16" height="30" rx="2" fill="#38c172" opacity="0.4"/>
-          <circle cx="32" cy="50" r="2.4" fill="#38c172"/>
-          <ellipse cx="30" cy="26" rx="6.5" ry="5" fill="#ffe08a"/>
-          <path d="M36 24l5 1.4-5 2z" fill="#ffb347"/>
-          <circle cx="32" cy="24" r="1" fill="#2b2140"/>
-        </svg>
-      </div>
-      <h2 data-he="ברווזים וקבנוס מובייל" data-en="Ducks &amp; Kaboom Mobile">ברווזים וקבנוס מובייל</h2>
-      <p data-he="אותו כיף מטורף, מותאם למגע — שחקו מכל מקום." data-en="Same wild fun, touch-optimized — play from anywhere.">
-        אותו כיף מטורף, מותאם למגע — שחקו מכל מקום.
-      </p>
-      <a class="play-btn" href="https://claude.ai/code/artifact/ebfdd56b-ca5d-497a-841e-949018e195c7" target="_blank" rel="noopener noreferrer">
-        <span data-he="שחקו עכשיו" data-en="Play now">שחקו עכשיו</span>
-        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </article>
+      <section>
+        <div class="section-head">
+          <h2 data-he="כל המשחקים" data-en="All Games">כל המשחקים</h2>
+          <span class="section-count" id="sectionCount">5 משחקים</span>
+        </div>
 
-    <!-- Axely and the Great Sewer -->
-    <article class="card" data-game="sewer">
-      <div class="icon-wrap">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="10" y="26" width="44" height="14" rx="7" fill="#fff"/>
-          <circle cx="20" cy="33" r="9" fill="#fff" opacity="0.9"/>
-          <circle cx="44" cy="33" r="9" fill="#fff" opacity="0.9"/>
-          <circle cx="20" cy="33" r="3.5" fill="#7c6ff2"/>
-          <circle cx="44" cy="33" r="3.5" fill="#7c6ff2"/>
-          <path d="M28 20c2-4 6-4 8 0" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <h2 data-he="אקסלי והביוב הגדול" data-en="Axely and the Great Sewer">אקסלי והביוב הגדול</h2>
-      <p data-he="גלגלו, קפצו והתחמקו במסע תת-קרקעי מלא הפתעות." data-en="Roll, jump and dodge through a surprise-filled underground journey.">
-        גלגלו, קפצו והתחמקו במסע תת-קרקעי מלא הפתעות.
-      </p>
-      <a class="play-btn" href="https://claude.ai/code/artifact/ae595ad3-3045-4ffe-b830-51dcf6b19aad" target="_blank" rel="noopener noreferrer">
-        <span data-he="שחקו עכשיו" data-en="Play now">שחקו עכשיו</span>
-        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </article>
+        <div class="grid" id="gamesGrid">
 
-    <!-- Duck in Space -->
-    <article class="card" data-game="space">
-      <div class="icon-wrap">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="46" cy="16" r="2" fill="#fff" opacity="0.8"/>
-          <circle cx="52" cy="26" r="1.4" fill="#fff" opacity="0.8"/>
-          <circle cx="40" cy="10" r="1.2" fill="#fff" opacity="0.8"/>
-          <ellipse cx="26" cy="36" rx="15" ry="11" fill="#fff"/>
-          <circle cx="35" cy="24" r="9" fill="#fff"/>
-          <circle cx="38" cy="21" r="1.6" fill="#2b2140"/>
-          <path d="M43 25l7 1.8-7 2.6z" fill="#ffb347"/>
-          <path d="M20 44l-4 6M28 46l-2 7M36 44l3 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <h2 data-he="ברווז בחלל" data-en="Duck in Space">ברווז בחלל</h2>
-      <p data-he="טוסו לחלל החיצון עם הברווז האמיץ בעולם!" data-en="Blast off into outer space with the bravest duck around!">
-        טוסו לחלל החיצון עם הברווז האמיץ בעולם!
-      </p>
-      <a class="play-btn" href="https://claude.ai/code/artifact/6cac4c0c-9cfc-48e5-9764-09430389e524" target="_blank" rel="noopener noreferrer">
-        <span data-he="שחקו עכשיו" data-en="Play now">שחקו עכשיו</span>
-        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </article>
+          <a class="card" data-game="safari" data-tags="adventure" data-name-he="ספארי סלאם" data-name-en="Safari Slam"
+             href="https://claude.ai/code/artifact/24daabb4-a4b7-4124-9689-59f2420906c9" target="_blank" rel="noopener noreferrer">
+            <div class="thumb">
+              <span class="thumb-tag" data-he="הרפתקאות" data-en="Adventure">הרפתקאות</span>
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="34" r="16" fill="#fff" opacity="0.25"/>
+                <path d="M20 40c0-10 5-18 12-18s12 8 12 18" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="24" cy="26" r="5" fill="#fff"/>
+                <circle cx="40" cy="26" r="5" fill="#fff"/>
+                <circle cx="24" cy="26" r="2" fill="#c94b2f"/>
+                <circle cx="40" cy="26" r="2" fill="#c94b2f"/>
+                <path d="M28 42c1.5 2 5.5 2 7 0" stroke="#c94b2f" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M14 20l6 6M50 20l-6 6M12 34h6M52 34h-6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <div class="play-overlay">
+                <span class="play-circle"><svg viewBox="0 0 24 24" fill="#1c1c2e"><path d="M8 5v14l11-7z"/></svg></span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 data-he="ספארי סלאם" data-en="Safari Slam">ספארי סלאם</h3>
+              <p data-he="הרפתקה מטורפת בג'ונגל — קפצו, רוצו ואספו נקודות!" data-en="A wild jungle adventure — jump, run and collect points!">הרפתקה מטורפת בג'ונגל — קפצו, רוצו ואספו נקודות!</p>
+            </div>
+          </a>
 
-  </main>
+          <a class="card" data-game="ducks" data-tags="arcade" data-name-he="ברווזים וקבנוס" data-name-en="Ducks & Kaboom"
+             href="https://claude.ai/code/artifact/439ee367-8d77-4976-8195-6e5473c845d4" target="_blank" rel="noopener noreferrer">
+            <div class="thumb">
+              <span class="thumb-tag" data-he="ארקייד" data-en="Arcade">ארקייד</span>
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="28" cy="38" rx="16" ry="12" fill="#fff"/>
+                <circle cx="38" cy="24" r="10" fill="#fff"/>
+                <circle cx="41" cy="21" r="1.8" fill="#2b2140"/>
+                <path d="M46 25l8 2-8 3z" fill="#ffb347"/>
+                <path d="M46 8l3 8-8-2z" fill="#fff" opacity="0.9"/>
+                <circle cx="47" cy="10" r="3" fill="#ffe08a"/>
+              </svg>
+              <div class="play-overlay">
+                <span class="play-circle"><svg viewBox="0 0 24 24" fill="#1c1c2e"><path d="M8 5v14l11-7z"/></svg></span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 data-he="ברווזים וקבנוס" data-en="Ducks &amp; Kaboom">ברווזים וקבנוס</h3>
+              <p data-he="כוונו, ירו ופוצצו — משחק דיוק וכיף לכל המשפחה." data-en="Aim, shoot, and pop — a fun precision game for the whole family.">כוונו, ירו ופוצצו — משחק דיוק וכיף לכל המשפחה.</p>
+            </div>
+          </a>
 
-  <footer>
-    <span data-he="נבנה באהבה" data-en="Built with love">נבנה באהבה</span>
-    <span class="heart">♥</span>
-    <span data-he="על ידי מרקו פולו" data-en="by Marco Polo">על ידי מרקו פולו</span>
-  </footer>
+          <a class="card" data-game="ducksm" data-tags="arcade mobile" data-name-he="ברווזים וקבנוס מובייל" data-name-en="Ducks & Kaboom Mobile"
+             href="https://claude.ai/code/artifact/ebfdd56b-ca5d-497a-841e-949018e195c7" target="_blank" rel="noopener noreferrer">
+            <div class="thumb">
+              <span class="thumb-tag" data-he="מובייל" data-en="Mobile">מובייל</span>
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="8" width="24" height="48" rx="6" fill="#fff" opacity="0.9"/>
+                <rect x="24" y="14" width="16" height="30" rx="2" fill="#38c172" opacity="0.4"/>
+                <circle cx="32" cy="50" r="2.4" fill="#38c172"/>
+                <ellipse cx="30" cy="26" rx="6.5" ry="5" fill="#ffe08a"/>
+                <path d="M36 24l5 1.4-5 2z" fill="#ffb347"/>
+                <circle cx="32" cy="24" r="1" fill="#2b2140"/>
+              </svg>
+              <div class="play-overlay">
+                <span class="play-circle"><svg viewBox="0 0 24 24" fill="#1c1c2e"><path d="M8 5v14l11-7z"/></svg></span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 data-he="ברווזים וקבנוס מובייל" data-en="Ducks &amp; Kaboom Mobile">ברווזים וקבנוס מובייל</h3>
+              <p data-he="אותו כיף מטורף, מותאם למגע — שחקו מכל מקום." data-en="Same wild fun, touch-optimized — play from anywhere.">אותו כיף מטורף, מותאם למגע — שחקו מכל מקום.</p>
+            </div>
+          </a>
+
+          <a class="card" data-game="sewer" data-tags="platformer" data-name-he="אקסלי והביוב הגדול" data-name-en="Axely and the Great Sewer"
+             href="https://claude.ai/code/artifact/ae595ad3-3045-4ffe-b830-51dcf6b19aad" target="_blank" rel="noopener noreferrer">
+            <div class="thumb">
+              <span class="thumb-tag" data-he="פלטפורמות" data-en="Platformer">פלטפורמות</span>
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="26" width="44" height="14" rx="7" fill="#fff"/>
+                <circle cx="20" cy="33" r="9" fill="#fff" opacity="0.9"/>
+                <circle cx="44" cy="33" r="9" fill="#fff" opacity="0.9"/>
+                <circle cx="20" cy="33" r="3.5" fill="#7c6ff2"/>
+                <circle cx="44" cy="33" r="3.5" fill="#7c6ff2"/>
+                <path d="M28 20c2-4 6-4 8 0" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+              <div class="play-overlay">
+                <span class="play-circle"><svg viewBox="0 0 24 24" fill="#1c1c2e"><path d="M8 5v14l11-7z"/></svg></span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 data-he="אקסלי והביוב הגדול" data-en="Axely and the Great Sewer">אקסלי והביוב הגדול</h3>
+              <p data-he="גלגלו, קפצו והתחמקו במסע תת-קרקעי מלא הפתעות." data-en="Roll, jump and dodge through a surprise-filled underground journey.">גלגלו, קפצו והתחמקו במסע תת-קרקעי מלא הפתעות.</p>
+            </div>
+          </a>
+
+          <a class="card" data-game="space" data-tags="space arcade" data-name-he="ברווז בחלל" data-name-en="Duck in Space"
+             href="https://claude.ai/code/artifact/6cac4c0c-9cfc-48e5-9764-09430389e524" target="_blank" rel="noopener noreferrer">
+            <div class="thumb">
+              <span class="thumb-tag" data-he="חלל" data-en="Space">חלל</span>
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="46" cy="16" r="2" fill="#fff" opacity="0.8"/>
+                <circle cx="52" cy="26" r="1.4" fill="#fff" opacity="0.8"/>
+                <circle cx="40" cy="10" r="1.2" fill="#fff" opacity="0.8"/>
+                <ellipse cx="26" cy="36" rx="15" ry="11" fill="#fff"/>
+                <circle cx="35" cy="24" r="9" fill="#fff"/>
+                <circle cx="38" cy="21" r="1.6" fill="#2b2140"/>
+                <path d="M43 25l7 1.8-7 2.6z" fill="#ffb347"/>
+                <path d="M20 44l-4 6M28 46l-2 7M36 44l3 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <div class="play-overlay">
+                <span class="play-circle"><svg viewBox="0 0 24 24" fill="#1c1c2e"><path d="M8 5v14l11-7z"/></svg></span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 data-he="ברווז בחלל" data-en="Duck in Space">ברווז בחלל</h3>
+              <p data-he="טוסו לחלל החיצון עם הברווז האמיץ בעולם!" data-en="Blast off into outer space with the bravest duck around!">טוסו לחלל החיצון עם הברווז האמיץ בעולם!</p>
+            </div>
+          </a>
+
+        </div>
+
+        <p class="no-results" id="noResults" hidden data-he="לא נמצאו משחקים תואמים." data-en="No matching games found.">לא נמצאו משחקים תואמים.</p>
+      </section>
+
+      <footer>
+        <span data-he="נבנה באהבה" data-en="Built with love">נבנה באהבה</span>
+        <span class="heart">♥</span>
+        <span data-he="על ידי מרקו פולו" data-en="by Marco Polo">על ידי מרקו פולו</span>
+      </footer>
+    </div>
+  </div>
 </div>
 
 <script>
   (function () {
     var btnHe = document.getElementById('btn-he');
     var btnEn = document.getElementById('btn-en');
-    var nodes = document.querySelectorAll('[data-he]');
+    var langNodes = document.querySelectorAll('[data-he]');
+    var searchInput = document.getElementById('searchInput');
     var STORAGE_KEY = 'marcopolo-lang';
+    var currentLang = 'he';
 
     function applyLang(lang) {
+      currentLang = lang;
       var isHe = lang === 'he';
       document.documentElement.lang = isHe ? 'he' : 'en';
       document.documentElement.dir = isHe ? 'rtl' : 'ltr';
-      nodes.forEach(function (el) {
+      langNodes.forEach(function (el) {
         el.innerHTML = el.getAttribute(isHe ? 'data-he' : 'data-en');
       });
+      searchInput.placeholder = searchInput.getAttribute(isHe ? 'data-ph-he' : 'data-ph-en');
       btnHe.classList.toggle('active', isHe);
       btnHe.setAttribute('aria-pressed', String(isHe));
       btnEn.classList.toggle('active', !isHe);
       btnEn.setAttribute('aria-pressed', String(!isHe));
       try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+      updateCount();
     }
 
     btnHe.addEventListener('click', function () { applyLang('he'); });
@@ -466,6 +793,67 @@
     var saved = null;
     try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
     if (saved === 'en') applyLang('en');
+
+    /* -------- sidebar drawer (mobile) -------- */
+    var sidebar = document.getElementById('sidebar');
+    var hamburger = document.getElementById('hamburger');
+    var drawerClose = document.getElementById('drawerClose');
+    var scrim = document.getElementById('scrim');
+
+    function openDrawer() {
+      sidebar.classList.add('open');
+      scrim.classList.add('show');
+    }
+    function closeDrawer() {
+      sidebar.classList.remove('open');
+      scrim.classList.remove('show');
+    }
+    hamburger.addEventListener('click', openDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    scrim.addEventListener('click', closeDrawer);
+
+    /* -------- category filter + search -------- */
+    var navItems = document.querySelectorAll('.nav-item[data-filter]');
+    var cards = document.querySelectorAll('#gamesGrid .card');
+    var noResults = document.getElementById('noResults');
+    var sectionCount = document.getElementById('sectionCount');
+    var activeFilter = 'all';
+
+    function updateCount() {
+      var visible = 0;
+      cards.forEach(function (c) { if (c.style.display !== 'none') visible++; });
+      var label = currentLang === 'he'
+        ? visible + (visible === 1 ? ' משחק' : ' משחקים')
+        : visible + (visible === 1 ? ' game' : ' games');
+      sectionCount.textContent = label;
+      noResults.hidden = visible !== 0;
+    }
+
+    function applyFilters() {
+      var query = searchInput.value.trim().toLowerCase();
+      cards.forEach(function (card) {
+        var tags = (card.getAttribute('data-tags') || '').split(' ');
+        var matchesFilter = activeFilter === 'all' || tags.indexOf(activeFilter) !== -1;
+        var name = (card.getAttribute('data-name-he') + ' ' + card.getAttribute('data-name-en')).toLowerCase();
+        var matchesQuery = query === '' || name.indexOf(query) !== -1;
+        card.style.display = (matchesFilter && matchesQuery) ? '' : 'none';
+      });
+      updateCount();
+    }
+
+    navItems.forEach(function (item) {
+      item.addEventListener('click', function () {
+        navItems.forEach(function (i) { i.classList.remove('active'); });
+        item.classList.add('active');
+        activeFilter = item.getAttribute('data-filter');
+        applyFilters();
+        closeDrawer();
+      });
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+
+    updateCount();
   })();
 </script>
 
