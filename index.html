@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מרקו פולו | Marco Polo — משחקים</title>
+<meta name="description" content="מרקו פולו — מרכז המשחקים. ספארי סלאם, ברווזים וקבנוס, אקסלי והביוב הגדול, ברווז בחלל ועוד.">
+<style>
+  :root {
+    --bg-1: #fff4d6;
+    --bg-2: #ffd7e6;
+    --bg-3: #cdeaff;
+    --card-bg: #ffffff;
+    --ink: #2b2140;
+    --ink-soft: #5a4e73;
+    --accent-1: #ff6b6b;
+    --accent-2: #ffa63d;
+    --accent-3: #4ecdc4;
+    --accent-4: #7c6ff2;
+    --accent-5: #ff5fa2;
+    --accent-6: #38c172;
+    --shadow: 0 14px 32px rgba(60, 30, 90, 0.16);
+    --shadow-hover: 0 20px 44px rgba(60, 30, 90, 0.24);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    min-height: 100vh;
+    font-family: "Segoe UI", "Heebo", "Arial Hebrew", Arial, system-ui, sans-serif;
+    background:
+      radial-gradient(circle at 12% 15%, var(--bg-3) 0%, transparent 45%),
+      radial-gradient(circle at 88% 20%, var(--bg-2) 0%, transparent 45%),
+      radial-gradient(circle at 50% 90%, var(--bg-3) 0%, transparent 50%),
+      var(--bg-1);
+    color: var(--ink);
+    padding: clamp(16px, 4vw, 40px) 16px 60px;
+    overflow-x: hidden;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  /* ---------- floating decorations ---------- */
+  .bg-decor {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .bg-decor span {
+    position: absolute;
+    font-size: 42px;
+    opacity: 0.18;
+    animation: float 9s ease-in-out infinite;
+    filter: blur(0.2px);
+  }
+  .bg-decor span:nth-child(1) { top: 6%;  left: 4%;  animation-delay: 0s;   font-size: 54px; }
+  .bg-decor span:nth-child(2) { top: 70%; left: 8%;  animation-delay: 1.4s; font-size: 36px; }
+  .bg-decor span:nth-child(3) { top: 15%; left: 88%; animation-delay: 0.8s; font-size: 48px; }
+  .bg-decor span:nth-child(4) { top: 78%; left: 90%; animation-delay: 2.2s; font-size: 40px; }
+  .bg-decor span:nth-child(5) { top: 45%; left: 50%; animation-delay: 3s;   font-size: 30px; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-22px) rotate(8deg); }
+  }
+
+  /* ---------- header ---------- */
+  header {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin-bottom: clamp(28px, 5vw, 48px);
+  }
+
+  .lang-toggle {
+    position: absolute;
+    top: 0;
+    inset-inline-end: 0;
+    display: flex;
+    gap: 6px;
+    background: var(--card-bg);
+    border-radius: 999px;
+    padding: 5px;
+    box-shadow: var(--shadow);
+  }
+
+  .lang-toggle button {
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    color: var(--ink-soft);
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  }
+
+  .lang-toggle button.active {
+    background: linear-gradient(135deg, var(--accent-4), var(--accent-5));
+    color: #fff;
+  }
+
+  .lang-toggle button:not(.active):hover {
+    background: #f2edff;
+    transform: translateY(-1px);
+  }
+
+  .logo-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 92px;
+    height: 92px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--accent-4), var(--accent-5));
+    box-shadow: var(--shadow);
+    margin-bottom: 18px;
+    transform: rotate(-4deg);
+  }
+
+  .logo-badge svg { width: 56px; height: 56px; }
+
+  h1 {
+    margin: 0 0 8px;
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-4) 45%, var(--accent-3));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .subtitle {
+    margin: 0 auto;
+    max-width: 560px;
+    color: var(--ink-soft);
+    font-size: clamp(15px, 2.4vw, 19px);
+    line-height: 1.6;
+  }
+
+  /* ---------- games grid ---------- */
+  .grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: clamp(16px, 3vw, 26px);
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 26px;
+    padding: 26px 22px 24px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 26px;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--card-accent-a), var(--card-accent-b));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    z-index: -1;
+  }
+
+  .card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .icon-wrap {
+    width: 96px;
+    height: 96px;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--card-accent-a), var(--card-accent-b));
+    box-shadow: 0 10px 20px -6px var(--card-accent-a);
+    transition: transform 0.25s ease;
+  }
+
+  .card:hover .icon-wrap { transform: rotate(-6deg) scale(1.06); }
+
+  .icon-wrap svg { width: 56px; height: 56px; }
+
+  .card h2 {
+    font-size: 20px;
+    margin: 0 0 6px;
+    font-weight: 800;
+  }
+
+  .card p {
+    margin: 0 0 18px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    min-height: 44px;
+  }
+
+  .play-btn {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--card-accent-a), var(--card-accent-b));
+    box-shadow: 0 8px 18px -6px var(--card-accent-a);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .play-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 22px -6px var(--card-accent-a);
+  }
+
+  .play-btn:active { transform: translateY(0); }
+
+  .play-btn svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.18s ease;
+  }
+
+  [dir="rtl"] .play-btn svg { transform: scaleX(-1); }
+
+  .play-btn:hover svg { transform: translateX(3px); }
+  [dir="rtl"] .play-btn:hover svg { transform: scaleX(-1) translateX(3px); }
+
+  /* per-card accent colors */
+  .card[data-game="safari"]  { --card-accent-a: #ffb547; --card-accent-b: #ff6b6b; }
+  .card[data-game="ducks"]   { --card-accent-a: #4ecdc4; --card-accent-b: #38c172; }
+  .card[data-game="ducksm"]  { --card-accent-a: #38c172; --card-accent-b: #4ecdc4; }
+  .card[data-game="sewer"]   { --card-accent-a: #7c6ff2; --card-accent-b: #ff5fa2; }
+  .card[data-game="space"]   { --card-accent-a: #4361ee; --card-accent-b: #7c6ff2; }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin-top: 56px;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+
+  footer .heart { color: var(--accent-1); }
+
+  @media (max-width: 420px) {
+    .lang-toggle { position: static; margin: 0 auto 18px; width: fit-content; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-decor" aria-hidden="true">
+  <span>⭐</span>
+  <span>🎈</span>
+  <span>✨</span>
+  <span>🎮</span>
+  <span>🌟</span>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="lang-toggle" role="group" aria-label="Language / שפה">
+      <button type="button" id="btn-he" class="active" aria-pressed="true">עברית</button>
+      <button type="button" id="btn-en" aria-pressed="false">English</button>
+    </div>
+
+    <div class="logo-badge" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 4L14 8L4 12V4Z" fill="#fff"/>
+        <path d="M4 12L20 20L4 20V12Z" fill="#fff" opacity="0.85"/>
+      </svg>
+    </div>
+
+    <h1 data-he="מרקו פולו" data-en="Marco Polo">מרקו פולו</h1>
+    <p class="subtitle" data-he="חמישה משחקים קטנים, הרפתקה אחת גדולה. בחרו משחק והתחילו לשחק!" data-en="Five little games, one big adventure. Pick a game and start playing!">
+      חמישה משחקים קטנים, הרפתקה אחת גדולה. בחרו משחק והתחילו לשחק!
+    </p>
+  </header>
+
+  <main class="grid">
+
+    <!-- Safari Slam -->
+    <article class="card" data-game="safari">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="34" r="16" fill="#fff" opacity="0.25"/>
+          <path d="M20 40c0-10 5-18 12-18s12 8 12 18" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="24" cy="26" r="5" fill="#fff"/>
+          <circle cx="40" cy="26" r="5" fill="#fff"/>
+          <circle cx="24" cy="26" r="2" fill="#c94b2f"/>
+          <circle cx="40" cy="26" r="2" fill="#c94b2f"/>
+          <path d="M28 42c1.5 2 5.5 2 7 0" stroke="#c94b2f" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M14 20l6 6M50 20l-6 6M12 34h6M52 34h-6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2 data-he="ספארי סלאם" data-en="Safari Slam">ספארי סלאם</h2>
+      <p data-he="הרפתקה מטורפת בג'ונגל — קפצו, רוצו ואספו נקודות!" data-en="A wild jungle adventure — jump, run and collect points!">
+        הרפתקה מטורפת בג'ונגל — קפצו, רוצו ואספו נקודות!
+      </p>
+      <a class="play-btn" href="https://claude.ai/code/artifact/24daabb4-a4b7-4124-9689-59f2420906c9" target="_blank" rel="noopener noreferrer">
+        <span data-he="שחקו עכשיו" data-en="Play now">שחקו עכשיו</span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </article>
+
+    <!-- Ducks & Kaboom -->
+    <article class="card" data-game="ducks">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="28" cy="38" rx="16" ry="12" fill="#fff"/>
+          <circle cx="38" cy="24" r="10" fill="#fff"/>
+          <circle cx="41" cy="21" r="1.8" fill="#2b2140"/>
+          <path d="M46 25l8 2-8 3z" fill="#ffb347"/>
+          <path d="M46 8l3 8-8-2z" fill="#fff" opacity="0.9"/>
+          <circle cx="47" cy="10" r="3" fill="#ffe08a"/>
+        </svg>
+      </div>
+      <h2 data-he="ברווזים וקבנוס" data-en="Ducks &amp; Kaboom">ברווזים וקבנוס</h2>
+      <p data-he="כוונו, ירו ופוצצו — משחק דיוק וכיף לכל המשפחה." data-en="Aim, shoot, and pop — a fun precision game for the whole family.">
+        כוונו, ירו ופוצצו — משחק דיוק וכיף לכל המשפחה.
+      </p>
+      <a class="play-btn" href="https://claude.ai/code/artifact/439ee367-8d77-4976-8195-6e5473c845d4" target="_blank" rel="noopener noreferrer">
+        <span data-he="שחקו עכשיו" data-en="Play now">שחקו עכשיו</span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </article>
+
+    <!-- Ducks & Kaboom Mobile -->
+    <article class="card" data-game="ducksm">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="8" width="24" height="48" rx="6" fill="#fff" opacity="0.9"/>
+          <rect x="24" y="14" width="16" height="30" rx="2" fill="#38c172" opacity="0.4"/>
+          <circle cx="32" cy="50" r="2.4" fill="#38c172"/>
+          <ellipse cx="30" cy="26" rx="6.5" ry="5" fill="#ffe08a"/>
+          <path d="M36 24l5 1.4-5 2z" fill="#ffb347"/>
+          <circle cx="32" cy="24" r="1" fill="#2b2140"/>
+        </svg>
+      </div>
+      <h2 data-he="ברווזים וקבנוס מובייל" data-en="Ducks &amp; Kaboom Mobile">ברווזים וקבנוס מובייל</h2>
+      <p data-he="אותו כיף מטורף, מותאם למגע — שחקו מכל מקום." data-en="Same wild fun, touch-optimized — play from anywhere.">
+        אותו כיף מטורף, מותאם למגע — שחקו מכל מקום.
+      </p>
+      <a class="play-btn" href="https://claude.ai/code/artifact/ebfdd56b-ca5d-497a-841e-949018e195c7" target="_blank" rel="noopener noreferrer">
+        <span data-he="שחקו עכשיו" data-en="Play now">שחקו עכשיו</span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </article>
+
+    <!-- Axely and the Great Sewer -->
+    <article class="card" data-game="sewer">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="26" width="44" height="14" rx="7" fill="#fff"/>
+          <circle cx="20" cy="33" r="9" fill="#fff" opacity="0.9"/>
+          <circle cx="44" cy="33" r="9" fill="#fff" opacity="0.9"/>
+          <circle cx="20" cy="33" r="3.5" fill="#7c6ff2"/>
+          <circle cx="44" cy="33" r="3.5" fill="#7c6ff2"/>
+          <path d="M28 20c2-4 6-4 8 0" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2 data-he="אקסלי והביוב הגדול" data-en="Axely and the Great Sewer">אקסלי והביוב הגדול</h2>
+      <p data-he="גלגלו, קפצו והתחמקו במסע תת-קרקעי מלא הפתעות." data-en="Roll, jump and dodge through a surprise-filled underground journey.">
+        גלגלו, קפצו והתחמקו במסע תת-קרקעי מלא הפתעות.
+      </p>
+      <a class="play-btn" href="https://claude.ai/code/artifact/ae595ad3-3045-4ffe-b830-51dcf6b19aad" target="_blank" rel="noopener noreferrer">
+        <span data-he="שחקו עכשיו" data-en="Play now">שחקו עכשיו</span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </article>
+
+    <!-- Duck in Space -->
+    <article class="card" data-game="space">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="46" cy="16" r="2" fill="#fff" opacity="0.8"/>
+          <circle cx="52" cy="26" r="1.4" fill="#fff" opacity="0.8"/>
+          <circle cx="40" cy="10" r="1.2" fill="#fff" opacity="0.8"/>
+          <ellipse cx="26" cy="36" rx="15" ry="11" fill="#fff"/>
+          <circle cx="35" cy="24" r="9" fill="#fff"/>
+          <circle cx="38" cy="21" r="1.6" fill="#2b2140"/>
+          <path d="M43 25l7 1.8-7 2.6z" fill="#ffb347"/>
+          <path d="M20 44l-4 6M28 46l-2 7M36 44l3 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2 data-he="ברווז בחלל" data-en="Duck in Space">ברווז בחלל</h2>
+      <p data-he="טוסו לחלל החיצון עם הברווז האמיץ בעולם!" data-en="Blast off into outer space with the bravest duck around!">
+        טוסו לחלל החיצון עם הברווז האמיץ בעולם!
+      </p>
+      <a class="play-btn" href="https://claude.ai/code/artifact/6cac4c0c-9cfc-48e5-9764-09430389e524" target="_blank" rel="noopener noreferrer">
+        <span data-he="שחקו עכשיו" data-en="Play now">שחקו עכשיו</span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </article>
+
+  </main>
+
+  <footer>
+    <span data-he="נבנה באהבה" data-en="Built with love">נבנה באהבה</span>
+    <span class="heart">♥</span>
+    <span data-he="על ידי מרקו פולו" data-en="by Marco Polo">על ידי מרקו פולו</span>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var btnHe = document.getElementById('btn-he');
+    var btnEn = document.getElementById('btn-en');
+    var nodes = document.querySelectorAll('[data-he]');
+    var STORAGE_KEY = 'marcopolo-lang';
+
+    function applyLang(lang) {
+      var isHe = lang === 'he';
+      document.documentElement.lang = isHe ? 'he' : 'en';
+      document.documentElement.dir = isHe ? 'rtl' : 'ltr';
+      nodes.forEach(function (el) {
+        el.innerHTML = el.getAttribute(isHe ? 'data-he' : 'data-en');
+      });
+      btnHe.classList.toggle('active', isHe);
+      btnHe.setAttribute('aria-pressed', String(isHe));
+      btnEn.classList.toggle('active', !isHe);
+      btnEn.setAttribute('aria-pressed', String(!isHe));
+      try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+    }
+
+    btnHe.addEventListener('click', function () { applyLang('he'); });
+    btnEn.addEventListener('click', function () { applyLang('en'); });
+
+    var saved = null;
+    try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+    if (saved === 'en') applyLang('en');
+  })();
+</script>
+
+</body>
+</html>
