@@ -7,6 +7,7 @@
 - ברווזים וקבנוס מובייל (Ducks & Kaboom Mobile)
 - אקסלי והביוב הגדול (Axely and the Great Sewer)
 - ברווז בחלל (Duck in Space)
+- מרוץ ירקות פרוע (Veggie Kart Rush)
 
 ## הרצה מקומית
 
