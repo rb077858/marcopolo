@@ -502,6 +502,8 @@
   .card[data-game="ducksm"]  { --card-accent-a: #38c172; --card-accent-b: #4ecdc4; }
   .card[data-game="sewer"]   { --card-accent-a: #7c6ff2; --card-accent-b: #ff5fa2; }
   .card[data-game="space"]   { --card-accent-a: #4361ee; --card-accent-b: #7c6ff2; }
+  .card[data-game="goat"]    { --card-accent-a: #ffb84d; --card-accent-b: #7bae4c; }
+  .card[data-game="critters"] { --card-accent-a: #ff5d5d; --card-accent-b: #ffc93c; }
 
   footer {
     text-align: center;
@@ -573,6 +575,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg>
         <span data-he="מובייל" data-en="Mobile">מובייל</span>
       </button>
+      <button class="nav-item" data-filter="battle" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 17.5L17.5 6.5M6.5 17.5l-2 4.5 4.5-2M17.5 6.5l2-4.5-4.5 2M9 15l-3 3M15 9l3-3"/></svg>
+        <span data-he="קרב" data-en="Battle">קרב</span>
+      </button>
     </nav>
 
     <div class="sidebar-bottom">
@@ -628,7 +634,7 @@
       <section>
         <div class="section-head">
           <h2 data-he="כל המשחקים" data-en="All Games">כל המשחקים</h2>
-          <span class="section-count" id="sectionCount">5 משחקים</span>
+          <span class="section-count" id="sectionCount">7 משחקים</span>
         </div>
 
         <div class="grid" id="gamesGrid">
@@ -744,6 +750,55 @@
             <div class="card-body">
               <h3 data-he="ברווז בחלל" data-en="Duck in Space">ברווז בחלל</h3>
               <p data-he="טוסו לחלל החיצון עם הברווז האמיץ בעולם!" data-en="Blast off into outer space with the bravest duck around!">טוסו לחלל החיצון עם הברווז האמיץ בעולם!</p>
+            </div>
+          </a>
+
+          <a class="card" data-game="goat" data-tags="platformer adventure" data-name-he="העז המטופשת וגזרי הכפר" data-name-en="The Silly Goat and the Village Carrots"
+             href="https://claude.ai/code/artifact/c39d0da9-d567-4891-b266-40076f42a5a7" target="_blank" rel="noopener noreferrer">
+            <div class="thumb">
+              <span class="thumb-tag" data-he="פלטפורמות" data-en="Platformer">פלטפורמות</span>
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 40c0-11 6-19 12-19s12 8 12 19" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+                <circle cx="23" cy="26" r="6" fill="#fff" opacity="0.92"/>
+                <circle cx="41" cy="26" r="6" fill="#fff" opacity="0.92"/>
+                <circle cx="23" cy="26" r="2" fill="#5e8c39"/>
+                <circle cx="41" cy="26" r="2" fill="#5e8c39"/>
+                <path d="M18 16l5 7M46 16l-5 7" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                <path d="M27 9h10v11H27z" fill="#ff7a1a"/>
+              </svg>
+              <div class="play-overlay">
+                <span class="play-circle"><svg viewBox="0 0 24 24" fill="#1c1c2e"><path d="M8 5v14l11-7z"/></svg></span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 data-he="העז המטופשת וגזרי הכפר" data-en="The Silly Goat and the Village Carrots">העז המטופשת וגזרי הכפר</h3>
+              <p data-he="פלטפורמר קלאסי — קפצו עם עז מטופשת, אספו גזרים והתחמקו מהמכשולים בכפר!" data-en="A classic platformer — jump with a silly goat, collect carrots and dodge village obstacles!">פלטפורמר קלאסי — קפצו עם עז מטופשת, אספו גזרים והתחמקו מהמכשולים בכפר!</p>
+            </div>
+          </a>
+
+          <a class="card" data-game="critters" data-tags="battle arcade" data-name-he="קרב הקריטרים" data-name-en="Critter Brawl"
+             href="https://claude.ai/code/artifact/e9d7cc8e-0306-4905-9a5a-cb1d53a9f78a" target="_blank" rel="noopener noreferrer">
+            <div class="thumb">
+              <span class="thumb-tag" data-he="קרב" data-en="Battle">קרב</span>
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="20" fill="#fff" opacity="0.18"/>
+                <path d="M32 6l3 9-9-3z" fill="#fff" opacity="0.9"/>
+                <path d="M58 32l-9 3 3-9z" fill="#fff" opacity="0.9"/>
+                <path d="M32 58l-3-9 9 3z" fill="#fff" opacity="0.9"/>
+                <path d="M6 32l9-3-3 9z" fill="#fff" opacity="0.9"/>
+                <circle cx="32" cy="34" r="13" fill="#fff"/>
+                <circle cx="27" cy="31" r="3.2" fill="#2b2140"/>
+                <circle cx="37" cy="31" r="3.2" fill="#2b2140"/>
+                <path d="M22 22c2-4 6-5 8-2M42 22c-2-4-6-5-8-2" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M27 40c2.5 2.5 7.5 2.5 10 0" stroke="#c94b2f" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <div class="play-overlay">
+                <span class="play-circle"><svg viewBox="0 0 24 24" fill="#1c1c2e"><path d="M8 5v14l11-7z"/></svg></span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 data-he="קרב הקריטרים" data-en="Critter Brawl">קרב הקריטרים</h3>
+              <p data-he="בכל קרב דמות אקראית מתוך 8, מפה אקראית ותיבות מזל — שרדו את הזירה!" data-en="A random character from 8, a random map, and lucky boxes — survive the arena!">בכל קרב דמות אקראית מתוך 8, מפה אקראית ותיבות מזל — שרדו את הזירה!</p>
             </div>
           </a>
 

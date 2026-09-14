@@ -1,12 +1,14 @@
 # מרקו פולו — Marco Polo Games Hub
 
-אתר סטטי בשתי שפות (עברית/אנגלית) המציג מרכז משחקים עם קישורים לחמישה משחקים:
+אתר סטטי בשתי שפות (עברית/אנגלית) המציג מרכז משחקים עם קישורים לשבעה משחקים:
 
 - ספארי סלאם (Safari Slam)
 - ברווזים וקבנוס (Ducks & Kaboom)
 - ברווזים וקבנוס מובייל (Ducks & Kaboom Mobile)
 - אקסלי והביוב הגדול (Axely and the Great Sewer)
 - ברווז בחלל (Duck in Space)
+- העז המטופשת וגזרי הכפר (The Silly Goat and the Village Carrots)
+- קרב הקריטרים (Critter Brawl)
 
 ## הרצה מקומית
 
